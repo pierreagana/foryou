@@ -1,10 +1,641 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffe0e9"><title>Une lettre pour toi ❤️</title>
-<style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:28px 16px;font-family:Georgia,'Times New Roman',serif;background:linear-gradient(135deg,#fff0f5,#ffc5d6);color:#762344}.scene{width:min(100%,560px);text-align:center}.eyebrow{font:italic 1.2rem Georgia;color:#ad315f}.envelope-wrap{position:relative;width:min(320px,88vw);height:205px;margin:100px auto 30px;cursor:pointer;perspective:900px;outline-offset:8px}.envelope{position:absolute;inset:0;background:#f6a0b9;border-radius:6px;box-shadow:0 18px 40px #8f24422b}.pocket{position:absolute;inset:0;z-index:3;background:#f9b3c7;clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);border-radius:6px}.flap{position:absolute;inset:0;z-index:4;background:#e77798;clip-path:polygon(0 0,100% 0,50% 60%);transform-origin:top;transition:transform .75s ease}.seal{position:absolute;z-index:5;top:46%;left:50%;transform:translate(-50%,-50%);font-size:42px;transition:opacity .3s}.letter{position:absolute;z-index:2;left:5%;top:10px;width:90%;height:180px;overflow:hidden;padding:24px 18px;background:#fffdfd;border-radius:5px;box-shadow:0 4px 15px #79244316;transition:transform .85s .2s,height .6s .2s}.letter h1{margin:0 0 12px;color:#c52b63;font-size:1.6rem}.letter p{line-height:1.65;margin:10px 0}.signature{font-style:italic;font-weight:bold}.open .flap{transform:rotateX(180deg);z-index:1}.open .letter{z-index:5;height:330px;transform:translateY(-205px);overflow:auto}.open .seal{opacity:0}.hint{font:1rem Arial,sans-serif;color:#963455}.floating{position:fixed;bottom:-35px;pointer-events:none;animation:rise 4s linear forwards}@keyframes rise{15%{opacity:1}100%{transform:translateY(-110vh) rotate(35deg);opacity:0}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style></head><body><main class="scene"><p class="eyebrow">Une petite surprise pour toi 💌</p><div class="envelope-wrap" id="envelope" role="button" tabindex="0" aria-label="Ouvrir la lettre" aria-expanded="false"><div class="envelope"></div><article class="letter"><h1>Mon amour ❤️</h1><p>Si je pouvais te donner une chose dans la vie, je te donnerais la possibilité de te voir à travers mes yeux. Tu comprendrais alors à quel point tu es spéciale pour moi.</p><p>Ton sourire illumine mes journées et ton amour rend mon monde plus beau. Peu importe les épreuves, je veux continuer à écrire notre histoire, main dans la main, cœur contre cœur.</p><p class="signature">Je t'aime aujourd'hui, demain et pour toujours. 💕</p></article><div class="pocket"></div><div class="flap"></div><div class="seal">❤️</div></div><p class="hint" id="hint">Clique sur l'enveloppe pour découvrir ton message</p></main><script>
-const env=document.querySelector('#envelope'),hint=document.querySelector('#hint');function toggle(){const open=env.classList.toggle('open');env.setAttribute('aria-expanded',String(open));hint.textContent=open?'💕 Un message rien que pour toi':'Clique sur l’enveloppe pour découvrir ton message';if(open){for(let i=0;i<18;i++){const h=document.createElement('span');h.className='floating';h.textContent=['❤️','💕','💗','💖'][Math.floor(Math.random()*4)];h.style.left=Math.random()*100+'vw';h.style.fontSize=16+Math.random()*20+'px';h.style.animationDelay=Math.random()*1.2+'s';document.body.append(h);h.addEventListener('animationend',()=>h.remove())}}}env.addEventListener('click',toggle);env.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
-</script></body></html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff0f4">
+    <title>Une surprise pour mon amour ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #f6b6c8;
+            --rose: #c74768;
+            --dark: #85344f;
+            --cream: #fffaf6;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: Georgia, serif;
+            color: var(--dark);
+            background: linear-gradient(135deg, #fff0f4, #ffe1e9, #fff8f1);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* INTRODUCTION ET LIVRAISON */
+
+        .delivery-intro {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            overflow: hidden;
+            background: linear-gradient(160deg, #fff1f5, #fbd8e3, #fff9f0);
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .delivery-intro.finished {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .delivery-text {
+            position: absolute;
+            top: 15%;
+            left: 15px;
+            right: 15px;
+            text-align: center;
+            animation: textAppear 1s ease both;
+        }
+
+        .delivery-text .eyebrow {
+            font: 11px Arial, sans-serif;
+            letter-spacing: 4px;
+            color: #bd7187;
+        }
+
+        .delivery-text h2 {
+            margin: 22px 0 12px;
+            font-size: clamp(27px, 6vw, 42px);
+            color: #963e5b;
+        }
+
+        .delivery-text p {
+            font: 14px/1.8 Arial, sans-serif;
+            color: #986c7b;
+        }
+
+        .delivery-scene {
+            position: absolute;
+            bottom: 13%;
+            left: 0;
+            width: 100%;
+            height: 220px;
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 5px;
+            background: #e8a7b9;
+            opacity: .6;
+        }
+
+        .courier {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            display: flex;
+            align-items: flex-end;
+            gap: 0;
+            white-space: nowrap;
+            font-size: 64px;
+            animation: ride 5s ease-in-out forwards;
+        }
+
+        .courier-person {
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+            font-size: 48px;
+            animation: bounce .22s ease-in-out infinite alternate;
+        }
+
+        .courier-bike {
+            margin-left: -12px;
+            font-size: 65px;
+        }
+
+        .delivery-package {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translate(-50%, -70px) scale(.4);
+            animation: packageDrop .9s ease-out 2.2s forwards;
+        }
+
+        .delivery-package .big-envelope {
+            font-size: 72px;
+            filter: drop-shadow(0 8px 8px #b75a7625);
+        }
+
+        .delivery-package span {
+            padding: 10px 16px;
+            background: #fffaf6;
+            border-radius: 25px;
+            box-shadow: 0 5px 20px #b65b7720;
+            font: 13px Arial, sans-serif;
+        }
+
+        .delivery-hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .delivery-hearts span {
+            position: absolute;
+            bottom: -30px;
+            opacity: 0;
+            animation: floatingHeart 6s linear infinite;
+        }
+
+        .delivery-hearts span:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .delivery-hearts span:nth-child(2) { left: 25%; animation-delay: 2s; }
+        .delivery-hearts span:nth-child(3) { left: 70%; animation-delay: 1s; }
+        .delivery-hearts span:nth-child(4) { left: 88%; animation-delay: 3s; }
+
+        /* PAGE PRINCIPALE */
+
+        main {
+            width: 100%;
+            max-width: 680px;
+            margin: auto;
+            padding: 45px 20px 55px;
+            text-align: center;
+        }
+
+        .subtitle {
+            margin-bottom: 18px;
+            font: 11px Arial, sans-serif;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #b56b80;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-size: clamp(31px, 7vw, 48px);
+            color: #963e5b;
+        }
+
+        .intro {
+            margin-bottom: 15px;
+            font: 15px/1.9 Arial, sans-serif;
+            color: #936675;
+        }
+
+        /* ENVELOPPE */
+
+        .envelope-wrapper {
+            position: relative;
+            width: min(280px, 78vw);
+            height: 185px;
+            margin: 75px auto 35px;
+            cursor: pointer;
+            perspective: 1000px;
+            animation: envelopeFloat 3s ease-in-out infinite;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .envelope {
+            position: absolute;
+            inset: 0;
+            border-radius: 5px;
+            background: #e9a2b5;
+            box-shadow: 0 18px 35px #b45b7730;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            background: #f6bdcc;
+            clip-path: polygon(0 0, 50% 58%, 100% 0);
+        }
+
+        .envelope::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            border-radius: 5px;
+            background: #d9829d;
+            clip-path: polygon(0 100%, 0 0, 50% 55%, 100% 0, 100% 100%);
+        }
+
+        .flap {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            background: #f9cbd6;
+            clip-path: polygon(0 0, 100% 0, 50% 62%);
+            transform-origin: top;
+            transition: transform .8s ease;
+        }
+
+        .seal {
+            position: absolute;
+            top: 73px;
+            left: 50%;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background: #c74768;
+            color: white;
+            font-size: 24px;
+            transform: translateX(-50%);
+            box-shadow: 0 3px 9px #8b294333;
+            transition: opacity .3s;
+        }
+
+        .letter {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 8px;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 155px;
+            padding: 18px;
+            border-radius: 4px;
+            background: var(--cream);
+            box-shadow: 0 0 8px #00000008;
+            transition: transform .9s ease, height .9s ease;
+        }
+
+        .letter p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .envelope-wrapper.open {
+            animation: none;
+        }
+
+        .envelope-wrapper.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-wrapper.open .seal {
+            opacity: 0;
+        }
+
+        .envelope-wrapper.open .letter {
+            z-index: 4;
+            height: 220px;
+            transform: translateY(-110px);
+            transition-delay: .35s;
+        }
+
+        .hint {
+            font: 13px Arial, sans-serif;
+            color: #a96b7e;
+            animation: pulse 1.8s infinite;
+        }
+
+        /* MESSAGE D'AMOUR */
+
+        .message {
+            display: none;
+            max-width: 500px;
+            margin: 28px auto 0;
+            opacity: 0;
+        }
+
+        .message.show {
+            display: block;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .message h2 {
+            margin-bottom: 20px;
+            color: #b53f63;
+            font-size: clamp(25px, 5vw, 32px);
+        }
+
+        .message p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.95;
+            color: #805363;
+        }
+
+        .signature {
+            margin-top: 24px;
+            color: #b53f63;
+            font-size: 21px;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        .replay {
+            margin-top: 25px;
+            padding: 12px 22px;
+            border: 1px solid #d98ba2;
+            border-radius: 30px;
+            color: #9b3c59;
+            background: #ffffffa8;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .replay:hover {
+            background: #f4c1d0;
+            transform: translateY(-2px);
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            z-index: 20;
+            pointer-events: none;
+            animation: rise linear forwards;
+        }
+
+        footer {
+            margin-top: 55px;
+            font: 12px Arial, sans-serif;
+            color: #b17a8b;
+        }
+
+        /* ANIMATIONS */
+
+        @keyframes ride {
+            0% { transform: translateX(-180px); }
+            35% { transform: translateX(35vw); }
+            60% { transform: translateX(35vw); }
+            100% { transform: translateX(120vw); }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) rotate(-3deg); }
+            to { transform: translateY(-5px) rotate(3deg); }
+        }
+
+        @keyframes packageDrop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -70px) scale(.4) rotate(-15deg);
+            }
+            70% {
+                opacity: 1;
+                transform: translate(-50%, 8px) scale(1.12) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1) rotate(0);
+            }
+        }
+
+        @keyframes envelopeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-9px); }
+        }
+
+        @keyframes textAppear {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .45; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes rise {
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatingHeart {
+            0% { transform: translateY(0); opacity: 0; }
+            15% { opacity: .8; }
+            100% { transform: translateY(-100vh) rotate(300deg); opacity: 0; }
+        }
+
+        @media (max-width: 400px) {
+            main { padding-top: 35px; }
+            .envelope-wrapper { margin-top: 60px; }
+            .message p { font-size: 15px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .courier, .delivery-package, .delivery-text,
+            .envelope-wrapper, .hint, .delivery-hearts span {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SCÈNE DE LIVRAISON -->
+<div class="delivery-intro" id="deliveryIntro">
+    <div class="delivery-hearts">
+        <span>💕</span>
+        <span>♡</span>
+        <span>💗</span>
+        <span>♡</span>
+    </div>
+
+    <div class="delivery-text">
+        <div class="eyebrow">UNE LIVRAISON SPÉCIALE</div>
+        <h2>Un courrier pour toi ❤️</h2>
+        <p>Quelqu'un qui t'aime beaucoup<br>t'a préparé une surprise...</p>
+    </div>
+
+    <div class="delivery-scene">
+        <div class="courier" id="courier">
+            <span class="courier-person">🧑🏾‍✈️</span>
+            <span class="courier-bike">🛵</span>
+        </div>
+
+        <div class="delivery-package">
+            <div class="big-envelope">💌</div>
+            <span>Pour ma chérie ❤️</span>
+        </div>
+
+        <div class="ground"></div>
+    </div>
+</div>
+
+<!-- PAGE D'AMOUR -->
+<main>
+    <div class="subtitle">Une petite pensée pour toi</div>
+
+    <h1>Bonjour, mon amour ❤️</h1>
+
+    <p class="intro">
+        J'ai quelque chose de doux à te dire ce matin...<br>
+        Ouvre ton petit courrier, mon cœur.
+    </p>
+
+    <div
+            class="envelope-wrapper"
+            id="envelope"
+            role="button"
+            tabindex="0"
+            aria-label="Ouvrir la lettre d'amour"
+            aria-expanded="false"
+    >
+        <div class="envelope"></div>
+
+        <div class="letter">
+            <p>
+                À la plus belle personne de ma vie 💕<br>
+                Que cette journée soit aussi belle que ton sourire.
+            </p>
+        </div>
+
+        <div class="flap"></div>
+        <div class="seal">♥</div>
+    </div>
+
+    <p class="hint" id="hint">
+        💌 Clique sur l'enveloppe pour découvrir ton message
+    </p>
+
+    <section class="message" id="message" aria-live="polite">
+        <h2>Bonne journée, ma chérie 🌹</h2>
+
+        <p>
+            Mon amour, je voulais être la petite pensée qui illumine ton réveil
+            et le sourire qui accompagne ton cœur aujourd'hui.
+        </p>
+
+        <p>
+            Peu importe ce que cette journée te réserve, n'oublie jamais à quel
+            point tu es précieuse pour moi. Que chaque instant t'apporte de la
+            joie, de la paix et de belles surprises.
+        </p>
+
+        <p>
+            Prends bien soin de toi, souris beaucoup et avance avec confiance.
+            Même quand je ne suis pas près de toi, une partie de mon cœur
+            t'accompagne partout. ❤️
+        </p>
+
+        <p>
+            Je t'envoie mille bisous, un câlin tout doux et tout mon amour
+            pour rendre ta journée merveilleuse.
+        </p>
+
+        <div class="signature">
+            Je t'aime, aujourd'hui et tous les jours. 💖
+        </div>
+
+        <button class="replay" id="replay">
+            💌 Refermer la lettre
+        </button>
+    </section>
+
+    <footer>Créé avec amour, spécialement pour toi ❤️</footer>
+</main>
+
+<script>
+    const deliveryIntro = document.getElementById("deliveryIntro");
+    const envelope = document.getElementById("envelope");
+    const message = document.getElementById("message");
+    const hint = document.getElementById("hint");
+    const replay = document.getElementById("replay");
+
+    function finishDelivery() {
+        deliveryIntro.classList.add("finished");
+    }
+
+    window.addEventListener("load", () => {
+        // Le coursier arrive, dépose la lettre et repart.
+        setTimeout(finishDelivery, 5800);
+    });
+
+    function openLetter() {
+        if (envelope.classList.contains("open")) return;
+
+        envelope.classList.add("open");
+        envelope.setAttribute("aria-expanded", "true");
+        hint.style.display = "none";
+
+        setTimeout(() => {
+            message.classList.add("show");
+            createHearts(22);
+        }, 1000);
+    }
+
+    function closeLetter() {
+        message.classList.remove("show");
+        envelope.classList.remove("open");
+        envelope.setAttribute("aria-expanded", "false");
+        hint.style.display = "block";
+    }
+
+    envelope.addEventListener("click", openLetter);
+
+    envelope.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openLetter();
+        }
+    });
+
+    replay.addEventListener("click", closeLetter);
+
+    function createHearts(number) {
+        for (let i = 0; i < number; i++) {
+            setTimeout(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.textContent = ["❤️", "💕", "💗", "💖", "🌸"][
+                    Math.floor(Math.random() * 5)
+                    ];
+
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = (14 + Math.random() * 20) + "px";
+                heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+                document.body.appendChild(heart);
+                heart.addEventListener("animationend", () => heart.remove());
+            }, i * 100);
+        }
+    }
+
+    // Petits cœurs qui flottent doucement
+    setInterval(() => {
+        if (document.hidden) return;
+
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = Math.random() > .5 ? "♡" : "💕";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (12 + Math.random() * 12) + "px";
+        heart.style.animationDuration = (5 + Math.random() * 4) + "s";
+
+        document.body.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove());
+    }, 1200);
+</script>
+
+</body>
+</html>
